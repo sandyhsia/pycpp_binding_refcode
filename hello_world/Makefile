@@ -1,0 +1,11 @@
+PYTHON_VERSION = 3.5
+PYTHON_INCLUDE = /usr/include/python$(PYTHON_VERSION)
+# location of the Boost Python include files and library
+BOOST_INC = /usr/include
+BOOST_LIB = /usr/lib
+# compile mesh classes
+TARGET = hello_ext
+$(TARGET).so: $(TARGET).o
+	g++ -shared -Wl,--export-dynamic $(TARGET).o -L$(BOOST_LIB) -lboost_python-py35 -L/usr/lib/python$(PYTHON_VERSION)/config-3.5m-x86_64-linux-gnu -lpython$(PYTHON_VERSION) -o $(TARGET).so
+$(TARGET).o: $(TARGET).c
+	g++ -I$(PYTHON_INCLUDE) -I$(BOOST_INC) -fPIC -c $(TARGET).c
